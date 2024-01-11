@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.go": "go",
+        "*.java": "java",
+        "queue": "cpp"
+    }
+}
