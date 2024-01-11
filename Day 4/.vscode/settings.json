@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "*.go": "go",
+        "*.java": "java",
+        "vector": "cpp",
+        "regex": "cpp",
+        "iostream": "cpp",
+        "xstring": "cpp"
+    }
+}
