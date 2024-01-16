@@ -92,24 +92,12 @@ class Day5:
         
         return minSeed
                 
-                
-                        
-                
-        # return self.Part1()
-        
-        
-                        
     def findMinDict(self, dict: dict, focusKey: str):
         minimum = None
         for key in dict:
             if (minimum is None or dict[key][focusKey] < dict[minimum[0]][focusKey]):
                 minimum = (key, dict[key][focusKey])                
         return minimum
-        
-                
-            
-                    
-
 
 if __name__ == "__main__":
     filename = "input2.txt"

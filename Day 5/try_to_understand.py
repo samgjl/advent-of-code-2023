@@ -14,6 +14,7 @@ class Function:
     # dst src sz
     self.tuples: list[tuple[int,int,int]] = [[int(x) for x in line.split()] for line in lines]
     #print(self.tuples)
+    
   def apply_one(self, x: int) -> int:
     for (dst, src, sz) in self.tuples:
       if src<=x<src+sz:

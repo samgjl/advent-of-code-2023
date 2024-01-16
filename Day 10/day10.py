@@ -100,9 +100,7 @@ def findLongestLoop(lines: list[str], start: tuple[int, int]) -> np.ndarray:
 
 def findNodesInsideLoop(loop: np.ndarray) -> (int, np.ndarray):
     rows, cols = loop.shape
-    limiter = rows if rows < cols else cols # The loop is always a square
     totalArr = np.full((rows, cols), 0, dtype=int)
-    total = 0
     for row, line in enumerate(loop):
         for col, char in enumerate(line):
             if char != ".": continue
@@ -118,30 +116,25 @@ def findNodesInsideLoop(loop: np.ndarray) -> (int, np.ndarray):
             # If we have an odd number of crosses, this is inside the loop
             if numCrosses % 2 == 1:
                 totalArr[row, col] = 1
-                total += 1
-    return total, totalArr
+    return totalArr.sum(), totalArr
 
-def part2(lines: list[str], startPos: tuple[int, int]) -> int:
-    loop = findLongestLoop(lines, startPos)
-    numInside, _ = findNodesInsideLoop(loop)
-    return numInside
-                
-    
-    
+
+def part1(lines: list[str]) -> int:
+    startPos = findStart(lines)
+    posArray = pipeBFS(lines, startPos)
+    return posArray.max()
 
 ''' IDEATION FOR PART 2:
     1. Find the longest loop in the graph (put it in 2D array) -> DONE
     2. Find out which nodes are enclosed by the loop
         How do I do this while allowing the squeezing between pipes?
         - Perhaps use some primitive raycasting?
-        - PRIMITIVE RAYCASTING MY BELOVED
-         
+        - PRIMITIVE RAYCASTING MY BELOVED   
 '''
-
-def part1(lines: list[str]) -> int:
-    startPos = findStart(lines)
-    posArray = pipeBFS(lines, startPos)
-    return posArray.max()
+def part2(lines: list[str], startPos: tuple[int, int]) -> int:
+    loop = findLongestLoop(lines, startPos)
+    numInside, _ = findNodesInsideLoop(loop)
+    return numInside
 
 if __name__ == "__main__":
     filename = sys.argv[1] if len(sys.argv) > 1 else "input2.txt"
