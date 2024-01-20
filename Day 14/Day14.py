@@ -72,8 +72,8 @@ class Day14:
             #     jumpAmount = i - self.gridDict[hashGrid]
             #     print(f"At {i} | Last Seen {self.gridDict[hashGrid]} | Cycle Length {jumpAmount}")
             #     i += jumpAmount
-            else:
-                self.gridDict[hashGrid] = i
+            # else:
+            #     self.gridDict[hashGrid] = i
         
         return self.countNorthernWeight(grid)
 
