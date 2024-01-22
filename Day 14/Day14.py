@@ -52,28 +52,29 @@ class Day14:
         grid = self.tilt(self.lines, direction = (-1, 0))
         return self.countNorthernWeight(grid)
 
-    def part2(self, spins: int = 1000000000):
+    def part2(self, spins: int = 1000000000): # spins = 1000000000
         grid = self.lines
-        NWSE = [(-1, 0), (0, -1), (1, 0), (0, 1)]
+        north = (-1, 0)
         # Tilt it a billion fucking times:
         i = 0
         while i < spins:
             i += 1
-            for j in range(4):
-                direction = NWSE[j]
+            for _ in range(4):
                 #  N -> W -> S -> E
-                grid = self.tilt(grid, direction)
+                grid = self.tilt(grid, north)
+                grid = np.rot90(grid, k=-1)
+            # printMatrix(grid)
                 
             # Try to hash:
-            hashGrid = hash("\n".join(["".join(row) for row in grid]))
-            # WHAT THE HELL AM I DOING HERE????
-            
-            # if hashGrid in self.gridDict and i + i - self.gridDict[hashGrid] <= spins:
-            #     jumpAmount = i - self.gridDict[hashGrid]
-            #     print(f"At {i} | Last Seen {self.gridDict[hashGrid]} | Cycle Length {jumpAmount}")
-            #     i += jumpAmount
-            # else:
-            #     self.gridDict[hashGrid] = i
+            hashGrid = hash("\n".join(["".join(row) for row in grid]))           
+            if hashGrid in self.gridDict and i + i - self.gridDict[hashGrid] <= spins:
+                jumpAmount = i - self.gridDict[hashGrid]
+                print(f"At {i} | Last Seen {self.gridDict[hashGrid]} | Cycle Length {jumpAmount}")
+                # i = i + jumpAmount
+                i += ((spins-i) // jumpAmount) * jumpAmount
+                print(i)
+            else:
+                self.gridDict[hashGrid] = i
         
         return self.countNorthernWeight(grid)
 
