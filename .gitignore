@@ -1,2 +1,5 @@
 input.txt
 *.sln
+*.o
+*.exe
+solution
