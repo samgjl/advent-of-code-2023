@@ -1,17 +1,12 @@
-/*
-NEEDS:
-    * file io
-    * string handling
-*/
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <vector>
 using namespace std;
-string converter[] = {"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
 
 int main(int argc, char *argv[])
 {
+    string converter[] = {"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
 
     ifstream input_file("input.txt", ios::in);
     string line;
@@ -27,13 +22,26 @@ int main(int argc, char *argv[])
         string numbers = "";
         for (int i = 0; i < line.length(); i++)
         {
-            // TODO: Part 2 rewrite
-            // TODO: Do we read exclusively L->R or do we do a two pointer approach?
             if (isdigit(line[i]))
             {
                 numbers.push_back(line[i]);
-            } else if (false) {
-
+            }
+            else
+            {
+                int start = i;
+                int num = -1;
+                for (int j = 0; start + j < line.length(); j++)
+                {
+                    string *it = find(begin(converter), end(converter), line.substr(start, j + 1));
+                    if (it != end(converter))
+                    {
+                        num = it - begin(converter);
+                    }
+                }
+                if (num != -1)
+                {
+                    numbers += to_string(num);
+                }
             }
         }
         int subtotal = 0;
@@ -42,6 +50,7 @@ int main(int argc, char *argv[])
             string sub = "";
             sub.push_back(numbers[0]);
             sub.push_back(numbers[numbers.length() - 1]);
+            // cout << numbers << endl;
             subtotal = stoi(sub);
         }
         else if (numbers.length() == 1)
@@ -54,5 +63,4 @@ int main(int argc, char *argv[])
     input_file.close();
 
     cout << "Total: " << total << endl;
-
 }
