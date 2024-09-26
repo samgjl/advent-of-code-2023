@@ -8,12 +8,12 @@ NEEDS:
 #include <string>
 #include <vector>
 using namespace std;
-vector<string> converter = {"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
+string converter[] = {"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
 
 int main(int argc, char *argv[])
 {
 
-    ifstream input_file("sample.txt", ios::in);
+    ifstream input_file("input.txt", ios::in);
     string line;
     int total = 0;
     if (!input_file.is_open())
