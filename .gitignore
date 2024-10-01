@@ -7,8 +7,8 @@ solution
 individual\Day 6\obj
 
 .DS_Store
-/.build
-/Packages
+.build/
+Packages/
 xcuserdata/
 DerivedData/
 .swiftpm/configuration/registries.json

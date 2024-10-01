@@ -3,5 +3,24 @@
     // Hover to view descriptions of existing attributes.
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
-    "configurations": []
+    "configurations": [
+        {
+            "type": "swift-lldb",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:advent-of-code-2023}/sam-and-gwen\\day_4\\Day4",
+            "name": "Debug Day4 (sam-and-gwen\\day_4\\Day4)",
+            "program": "${workspaceFolder:advent-of-code-2023}/sam-and-gwen\\day_4\\Day4/.build/debug/Day4",
+            "preLaunchTask": "swift: Build Debug Day4 (sam-and-gwen\\day_4\\Day4)"
+        },
+        {
+            "type": "swift-lldb",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:advent-of-code-2023}/sam-and-gwen\\day_4\\Day4",
+            "name": "Release Day4 (sam-and-gwen\\day_4\\Day4)",
+            "program": "${workspaceFolder:advent-of-code-2023}/sam-and-gwen\\day_4\\Day4/.build/release/Day4",
+            "preLaunchTask": "swift: Build Release Day4 (sam-and-gwen\\day_4\\Day4)"
+        }
+    ]
 }
