@@ -8,11 +8,11 @@ import ArgumentParser
 import Foundation
 
 class Card: CustomStringConvertible {
-    var id: String
+    var id: Int
     var winners: [Int:Bool]
     var numbers: [Int]
 
-    init(id: String, winners: [Int:Bool], numbers: [Int]) {
+    init(id: Int, winners: [Int:Bool], numbers: [Int]) {
         self.id = id
         self.winners = winners
         self.numbers = numbers
@@ -40,31 +40,79 @@ class Card: CustomStringConvertible {
         }
         return points
     }
+
+    func countMatches() -> Int {
+        var matches = 0;
+        for num in numbers {
+            if winners[num] != nil {
+                matches += 1
+            }
+        }
+        return matches
+    }
 }
 
 @main
 struct Day4: ParsableCommand {
-    @Option(help: "Specify the input")
-    public var file: String = "sample.txt"
+    @Option(help: "Specify the input file")
+    public var file: String = "../sample.txt"
+    @Flag(help: "Add --v to make Part 2 verbose")
+    public var v: Bool = false
 
     mutating func run() throws {
         print("Input: '\(self.file)'")
+        print("--- PART 1 ---")
         let cards = parseFile(filename: self.file)
-        let winArr = part1(cards: cards)
-        print("--- PART 1 ---\nTotal Cards: \(cards.count)\nSum: \(winArr.reduce(0, +))\n--------------")
+        print("Total Cards: \(cards.count)")
+        let points = part1(cards: cards)
+        print("Sum: \(points)")
+        print("--------------")
 
-        var queue = [Int]()
-        
+        print("--- PART 2 ---")
+        let numCards = part2(cards: cards, verbose: v)
+        print("Total produced: \(numCards)")
+        print("--------------")
     }
 
-    func part1(cards: [Card]) -> [Int] {
-        var sum = 0
-        var winArr = [Int]()
+    func part1(cards: [Card]) -> Int {
+        var pts = 0
         for card in cards {
-            winArr.append(card.calculatePoints())
+            pts += card.calculatePoints()
         }
-        return winArr
+        return pts
     }
+
+    func part2(cards: [Card], verbose: Bool) -> Int {
+        /* 
+            * Every card can __only__ produce cards that come after it (and card N produces 0 new cards)
+            * As such, we can count the total number of cards produced by induction:
+                * Base case: Let our array of cards produced C contain [1] card (just card N alone)
+                * Inductive case (card i < N):
+                    * Let M be the number of matches.
+                    * Sum together the first M items in C
+                    * Add this sum to the beginning of C, as it takes card i's place
+            * At the end, we know that we queue up cards 1...N for counting, so we can just sum array C for our final number
+        */
+        var production = [Int]()
+        for x in 1...cards.count {
+            let i = cards.count - x
+            let card = cards[i]
+            var numProduced = 1 // 1 because it starts with its own existence
+            let matches = card.countMatches()
+            if matches > 0 {
+                for j in 0...matches-1 {
+                    numProduced += production[j]
+                }
+            }
+            if verbose {
+                print("Card \(card.id): \(numProduced) cards")
+            }
+            production.insert(numProduced, at: 0)
+        }
+        return production.reduce(0, +)
+    }
+
+
 
     func parseFile(filename: String) -> [Card]{
         let input: String
@@ -83,7 +131,8 @@ struct Day4: ParsableCommand {
 
             let parts = line.components(separatedBy: ":")
             
-            let cardName = parts[0]
+            let tempName = parts[0].components(separatedBy: " ")
+            let cardName = Int(tempName[tempName.count - 1]) ?? -1 // In case of nil, make -1
             let numberPart = parts[1]
             
             let numberSets = numberPart.components(separatedBy: "|")
