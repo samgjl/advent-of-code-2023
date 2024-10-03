@@ -84,9 +84,9 @@ struct Day4: ParsableCommand {
 
     func part2(cards: [Card], verbose: Bool) -> Int {
         /* 
-            * Every card can __only__ produce cards that come after it (and card N produces 0 new cards)
+            * Every card can __only__ produce cards that come after it (and you can't fall off the list producing cards)
             * As such, we can count the total number of cards produced by induction:
-                * Base case: Let our array of cards produced C contain [1] card (just card N alone)
+                * Base case: Let our array of cards produced C be [1] (just card N alone, as it can produce nothing)
                 * Inductive case (card i < N):
                     * Let M be the number of matches.
                     * Sum together the first M items in C
