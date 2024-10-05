@@ -1,14 +1,31 @@
+html {
+  font-family: --apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
 #drop_zone {
   border: 5px dashed rgb(107, 107, 107);
   border-radius: 10px;
   width: 200px;
   height: 100px;
+  display: flex;
   justify-content: center;
+  align-items: center;
+}
+
+#drop_zone div {
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0);
+  user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .dragover {
-  /* animation: pulse 5s infinite; */
-  background-color: lightgrey;
+  animation: pulse 2.5s infinite;
+  /* background-color: lightgrey; */
 }
 
 @keyframes pulse {
@@ -17,7 +34,7 @@
   }
 
   50% {
-    background-color: lightblue;
+    background-color: lightgrey;
   }
 
   100% {

@@ -32,7 +32,6 @@ function readText(item) {
 }
 
 async function dropHandler(ev) {
-    console.log("File dropped");
     ev.preventDefault();
     if (ev.dataTransfer.items) {
         let item = ev.dataTransfer.items[0];
@@ -43,23 +42,31 @@ async function dropHandler(ev) {
         // Read our file as input:
         let input = await readText(item);
         input = parseInput(input);
-
-        let seeds = input[0];
-        let maps = input[1];
-
-        let locations = [];
-        for (let i = 0; i < seeds.length; i++) {
-            let seed = seeds[i];
-            let stops = [seed];
-            for (let j = 0; j < maps.length; j++) {
-                let map = maps[j];
-                let next = traverse(map, stops[stops.length-1]);
-                stops.push(next);
-            }
-            locations.push(stops[stops.length-1]);
-        }
-        console.log("Minimum location:", Math.min(...locations));
+        
+        part1(input);
     }
+}
+
+function part1(input) {
+    let seeds = input[0];
+    let maps = input[1];
+
+    // let locations = [];
+    let minLoc = Infinity;
+    for (let i = 0; i < seeds.length; i++) {
+        let seed = seeds[i];
+        let stops = [seed];
+        for (let j = 0; j < maps.length; j++) {
+            let map = maps[j];
+            let next = traverse(map, stops[stops.length-1]);
+            stops.push(next);
+        }
+        // locations.push(stops[stops.length-1]);
+        minLoc = Math.min(minLoc, stops[stops.length-1]);
+    }
+    console.log("Minimum location:", minLoc);
+    // console.log("Minimum location:", Math.min(...locations));
+    return minLoc;
 }
 
 
@@ -81,7 +88,6 @@ function parseInput(text) {
     seeds = seeds.split("seeds: ")[1]
         .split(" ") // ["<s1>", "<s2>", ...]
         .map((num) => { return parseInt(num); }); // turns each seed into an int
-    console.log(seeds);
     maps = maps.map((map) => {
         let temp = map.split("\n");
         temp.shift();
@@ -96,17 +102,15 @@ function parseInput(text) {
 
 
 function dragEnterHandler(ev) {
-    console.log("File in drop zone");
+    ev.target.classList.add("dragover");
     ev.preventDefault();
-    document.getElementById("drop_zone").classList.add("dragover");
 }
 
 function dragOverHandler(ev) {
     ev.preventDefault();
 }
 
-function dragEndHandler(ev) {
-    console.log("File no longer in grop zone");
+function dragLeaveHandler(ev) {
+    ev.target.classList.remove("dragover");
     ev.preventDefault();
-    document.getElementById("drop_zone").classList.remove("dragover");
 }
