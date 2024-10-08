@@ -44,6 +44,7 @@ async function dropHandler(ev) {
         input = parseInput(input);
         
         part1(input);
+        // part2(input);
     }
 }
 
@@ -65,10 +66,44 @@ function part1(input) {
         minLoc = Math.min(minLoc, stops[stops.length-1]);
     }
     console.log("Minimum location:", minLoc);
+    document.querySelector("#part1").innerHTML = `Part 1: ${minLoc}`;
     // console.log("Minimum location:", Math.min(...locations));
     return minLoc;
 }
 
+function part2(input){
+    // 1. Updating the seeds array
+    let p1Seeds = input[0];
+    let seeds = [];
+    let maps = input[1];
+
+    for (let i = 0; i < p1Seeds.length; i+=2) {
+        seeds.push([p1Seeds[i], p1Seeds[i+1]]); // list of (<base seed>, <range>)
+    }
+
+    let minLoc = Infinity;
+    for (let i = 0; i < seeds.length; i++) {
+        let seed = seeds[i][0];
+        let range = seeds[i][1];
+        for (let j = seed; j < seed + range; j++) {
+            let temp = traverseAll(maps, j);
+            if (temp < minLoc) minLoc = temp;
+        }
+        
+    }
+
+    console.log("Part 2:", minLoc);
+    document.querySelector("#part2").innerHTML = `Part 2: ${minLoc}`;
+    
+}
+
+function traverseAll(maps, input) {
+    let out = input;
+    for (let i = 0; i < maps.length; i++) {
+        out = traverse(maps[i], out);
+    }
+    return out;
+}
 
 function traverse(maps, input) {
     for (let i = 0; i < maps.length; i++) {
