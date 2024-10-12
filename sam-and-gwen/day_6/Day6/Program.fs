@@ -3,15 +3,7 @@ open System.IO
 
 let filename = "../input.txt"
 
-// let readLines (filePath:string) = seq {
-//     use sr = new StreamReader (filePath)
-//     while not sr.EndOfStream do
-//         yield sr.ReadLine ()
-// }
-
-
-
-let read f part = 
+let read part f = 
     let removeSpaces line = 
         if part = 1 then Regex.Replace(line, @"(\s)\s+", "$1")
         else Regex.Replace(line, @"(\s)\s+", "")
@@ -48,12 +40,12 @@ let rec solveAll (times: float list) (dists: float list): float list =
         [sol] @ (solveAll times.Tail dists.Tail)
 
 let part1 = 
-    let (T, D) = read filename 1
+    let (T, D) = read 1 filename 
     solveAll T D
     |> List.reduce (*)
 
 let part2 = 
-    let (T,D) = read filename 2
+    let (T,D) = read 2 filename 
     solveAll T D
     |> List.reduce (*)
 
