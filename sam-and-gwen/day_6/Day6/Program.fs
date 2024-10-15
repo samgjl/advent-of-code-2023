@@ -3,14 +3,6 @@ open System.IO
 
 let filename = "../input.txt"
 
-// let readLines (filePath:string) = seq {
-//     use sr = new StreamReader (filePath)
-//     while not sr.EndOfStream do
-//         yield sr.ReadLine ()
-// }
-
-
-
 let read f part = 
     let removeSpaces line = 
         if part = 1 then Regex.Replace(line, @"(\s)\s+", "$1")
