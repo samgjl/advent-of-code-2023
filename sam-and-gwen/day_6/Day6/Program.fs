@@ -40,12 +40,12 @@ let rec solveAll (times: float list) (dists: float list): float list =
         [sol] @ (solveAll times.Tail dists.Tail)
 
 let part1 = 
-    let (T, D) = read filename 1
+    let (T, D) = read 1 filename 
     solveAll T D
     |> List.reduce (*)
 
 let part2 = 
-    let (T,D) = read filename 2
+    let (T,D) = read 2 filename 
     solveAll T D
     |> List.reduce (*)
 
