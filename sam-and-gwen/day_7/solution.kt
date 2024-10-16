@@ -1,12 +1,21 @@
 import java.io.File
 class Hand(val cards: String) {
-    val cards = ""
+    val cardsList = cards.split('')
+
+    fun compare(): Int{
+        
+    }
+
+    fun getType(): String{
+        
+    }
 
 }
 
 class Solution {
     fun main() {
-        parseFile("sample.txt");
+        val rounds = parseFile("sample.txt");
+
     }
     fun parseFile(filename: String): List<Pair<Hand,Int>>{
         val lines = File(filename).readLines()
@@ -17,8 +26,8 @@ class Solution {
             val bid = line.split(" ")[1].toInt()
 
             val handObj = Hand(hand)
-            round.add(Pair(handObj, bid));
+            rounds.add(Pair(handObj, bid))
         }
-
+        return rounds
     }
 }
